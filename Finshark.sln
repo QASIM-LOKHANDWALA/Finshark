@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36429.23 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Finshark", "Finshark\Finshark.csproj", "{9797854C-D575-4F65-9F38-C774468103F9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9797854C-D575-4F65-9F38-C774468103F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9797854C-D575-4F65-9F38-C774468103F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9797854C-D575-4F65-9F38-C774468103F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9797854C-D575-4F65-9F38-C774468103F9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E41C1589-E4EC-4E3B-B8FF-4BE622A33737}
+	EndGlobalSection
+EndGlobal

@@ -1,5 +1,6 @@
 ﻿using Finshark.Data;
 using Finshark.Dtos.Stock;
+using Finshark.Helpers;
 using Finshark.Interface;
 using Finshark.Mappers;
 using Finshark.Models;
@@ -31,10 +32,36 @@ namespace Finshark.Repository
             return stock;
         }
 
-        public async Task<List<Stock>> GetAllAsync()
+        public async Task<List<Stock>> GetAllAsync(StockQueryObject query)
         {
-            var stocks = await _context.Stocks.Include(s => s.Comments).ToListAsync();
-            return stocks;
+            var stocks = _context.Stocks.Include(s => s.Comments).AsQueryable();
+            if (!string.IsNullOrWhiteSpace(query.CompanyName))
+            {
+                stocks = stocks.Where(s => s.CompanyName.Contains(query.CompanyName));
+            }
+            if (!string.IsNullOrWhiteSpace(query.Symbol))
+            {
+                stocks = stocks.Where(s => s.Symbol.Contains(query.Symbol));
+            }
+            if (!string.IsNullOrWhiteSpace(query.SortBy))
+            {
+                switch (query.SortBy.ToLower())
+                {
+                    case "symbol":
+                        stocks = query.IsDecending == true ? stocks.OrderByDescending(s => s.Symbol) : stocks.OrderBy(s => s.Symbol);
+                        break;
+                    case "industry":
+                        stocks = query.IsDecending == true ? stocks.OrderByDescending(s => s.Industry) : stocks.OrderBy(s => s.Industry);
+                        break;
+                    case "companyname":
+                        stocks = query.IsDecending == true ? stocks.OrderByDescending(s => s.CompanyName) : stocks.OrderBy(s => s.CompanyName);
+                        break;
+                }
+            }
+
+            var skipNumber = (query.PageNumber - 1) * query.PageSize;
+
+            return await stocks.Skip(skipNumber).Take(query.PageSize).ToListAsync();
         }
 
         public async Task<Stock?> GetByIdAsync(int id)

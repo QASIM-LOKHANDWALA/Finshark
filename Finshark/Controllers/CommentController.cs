@@ -1,4 +1,5 @@
 ﻿using Finshark.Dtos.Comment;
+using Finshark.Helpers;
 using Finshark.Interface;
 using Finshark.Mappers;
 using Microsoft.AspNetCore.Http;
@@ -19,12 +20,12 @@ namespace Finshark.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] CommentQueryObject query)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var comments = await _commentRepo.GetAllAsync();
+            var comments = await _commentRepo.GetAllAsync(query);
             var commentDTO = comments.Select(c => c.ToCommentDTO());
             return Ok(commentDTO);
         }

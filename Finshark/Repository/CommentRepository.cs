@@ -1,5 +1,6 @@
 ﻿using Finshark.Data;
 using Finshark.Dtos.Comment;
+using Finshark.Helpers;
 using Finshark.Interface;
 using Finshark.Models;
 using Microsoft.EntityFrameworkCore;
@@ -9,10 +10,19 @@ namespace Finshark.Repository
     public class CommentRepository(ApplicationDBContext context) : ICommentRepository
     {
         private readonly ApplicationDBContext _context = context;
-        public async Task<List<Comment>> GetAllAsync()
+        public async Task<List<Comment>> GetAllAsync(CommentQueryObject query)
         {
-            var comments = await _context.Comments.ToListAsync();
-            return comments;
+            var comments = _context.Comments.AsQueryable();
+            if (!string.IsNullOrWhiteSpace(query.Title))
+            {
+                comments = comments.Where(c => c.Title.Contains(query.Title));
+            }
+            if (!string.IsNullOrWhiteSpace(query.Content))
+            {
+                comments = comments.Where(c => c.Content.Contains(query.Content));
+            }
+            comments = query.IsDecending == true ? comments.OrderByDescending(c => c.CreatedOn) : comments.OrderBy(c => c.CreatedOn);
+            return await comments.ToListAsync();
         }
 
         public async Task<Comment?> GetByIdAsync(int id)

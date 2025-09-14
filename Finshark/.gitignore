@@ -67,6 +67,7 @@ secrets.json
 
 # Don't track environment-specific settings
 appsettings.Development.json
+appsettings.json
 appsettings.Local.json
 appsettings.*.json  # Optional: use if each environment has its own config
 

@@ -32,7 +32,7 @@ namespace Finshark.Controllers
             var stock = await _stockRepo.GetByIdAsync(id);
             if (stock is null)
             {
-                return NotFound();
+                return NotFound("Stock does not exist.");
             }
             var stockDTO = stock.ToStockDTO();
             return Ok(stockDTO);
@@ -51,7 +51,7 @@ namespace Finshark.Controllers
             var stock = await _stockRepo.UpdateAsync(id, stockDTO);
             if(stock is null)
             {
-                return NotFound();
+                return NotFound("Stock does not exist.");
             }
             return Ok(stock.ToStockDTO());
         }
@@ -62,7 +62,7 @@ namespace Finshark.Controllers
             var stock = await _stockRepo.DeleteAsync(id);
             if (stock is null)
             {
-                return NotFound();
+                return NotFound("Stock does not exist.");
             }
             return NoContent();
         }

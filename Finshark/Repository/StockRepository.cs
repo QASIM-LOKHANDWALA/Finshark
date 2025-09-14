@@ -33,18 +33,24 @@ namespace Finshark.Repository
 
         public async Task<List<Stock>> GetAllAsync()
         {
-            var stocks = await _context.Stocks.ToListAsync();
+            var stocks = await _context.Stocks.Include(s => s.Comments).ToListAsync();
             return stocks;
         }
 
         public async Task<Stock?> GetByIdAsync(int id)
         {
-            var stock = await _context.Stocks.FindAsync(id);
+            var stock = await _context.Stocks.Include(s => s.Comments).FirstOrDefaultAsync(s => s.Id == id);
             if (stock is null)
             {
                 return null;
             }
             return stock;
+        }
+
+        public async Task<bool> StockExists(int id)
+        {
+            var stockExists = await _context.Stocks.AnyAsync(s => s.Id == id);
+            return stockExists;
         }
 
         public async Task<Stock?> UpdateAsync(int id, UpdateStockRequestDTO stockDTO)

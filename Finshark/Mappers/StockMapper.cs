@@ -15,7 +15,8 @@ namespace Finshark.Mappers
                 LastDiv = stock.LastDiv,
                 MarketCap = stock.MarketCap,
                 Purchase = stock.Purchase,
-                Symbol = stock.Symbol
+                Symbol = stock.Symbol,
+                Comments = stock.Comments.Select(c => c.ToCommentDTO()).ToList()
             };
         }
 
